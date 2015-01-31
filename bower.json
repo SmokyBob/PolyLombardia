@@ -1,0 +1,15 @@
+{
+  "name": "PolyLombardia",
+  "description": "",
+  "homepage": "",
+  "keywords": [
+  ],
+  "author": "",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#latest",
+    "core-elements": "Polymer/core-elements#latest",
+    "paper-elements": "Polymer/paper-elements#latest",
+    "google-map": "GoogleWebComponents/google-map#master"
+  }
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>PolyLombardia</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+
+  <link rel="import" href="bower_components/core-icons/core-icons.html">
+  <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+  <link rel="import" href="bower_components/font-roboto/roboto.html">
+  <link rel="import" href="bower_components/paper-button/paper-button.html">
+  <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+  <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="bower_components/paper-fab/paper-fab.html">
+  <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+  <link rel="import" href="bower_components/paper-toast/paper-toast.html"> 
+  <link rel="import" href="bower_components/google-map/google-map.html">
+  <link rel="import" href="bower_components/core-scaffold/core-scaffold.html">
+  <link rel="import" href="bower_components/core-menu/core-menu.html">
+  <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="bower_components/core-elements/core-elements.html">
+
+
+
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body unresolved fit>
+
+  <template id="mainContent" is="auto-binding">
+  <core-scaffold>
+  <core-header-panel navigation flex mode="seamed">
+    <core-toolbar>Polymer Hackaton</core-toolbar>
+    <core-menu theme="core-light-theme">
+      <core-item icon="settings" label="item1"></core-item>
+      <core-item icon="settings" label="item2"></core-item>
+    </core-menu>
+  </core-header-panel>
+  <div tool>PolyLombardia</div>
+  <div fit>    
+    <google-map id="myMap" flex fitToMarkers="{{(items.length>1)}}">
+    <template repeat="{{item in items}}">
+      <google-map-marker latitude="{{item.location.latitude}}" longitude="{{item.location.longitude}}"
+      title="{{item.nome_agriturismo}}">
+    </google-map-marker>
+    </template>
+  </google-map>
+  </div>
+  </core-scaffold>
+
+  <core-ajax
+    url="https://www.dati.lombardia.it/resource/xy9p-k9bj.json"
+    handleAs="json"
+    response="{{items}}"
+    auto>
+</core-ajax>
+
+</template>
+  
+  <script src="main.js"></script>
+</body>
+</html>
