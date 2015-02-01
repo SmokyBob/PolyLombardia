@@ -2,56 +2,79 @@ var template = document.getElementById("mainContent");
 var province = [];
 var markers = [];
 var tipologia = [];
+var prezzo = [];
+
+var gratis = false;
 
 template.addEventListener('template-bound', function(e) {
-	//template.dataList = [{'url': 'https://www.dati.lombardia.it/resource/iu2c-9p5j.json'}]
-	template.selectProvincia = function() {
+
+	template.url_entry = 'https://www.dati.lombardia.it/resource/iu2c-9p5j.json';
+
+	template.select = function() {
 		markers = [];
 		template.items.forEach(function(item) {
-			if ((template.selectedProvincia==null || template.selectedProvincia==item.sede_provincia) && (template.selectedTipo==null || template.selectedTipo==item.museo_tipologia)) {
+			if (gratis){
+				if ((template.selectedProvincia==null || template.selectedProvincia==item.sede_provincia) && 
+					(template.selectedTipo==null || template.selectedTipo==item.museo_tipologia) &&
+					(item.museo_ingresso=="GRATUITO")) { 
 					markers.push(item); 
 				} 
+			} else {
+				if ((template.selectedProvincia==null || template.selectedProvincia==item.sede_provincia) && 
+					(template.selectedTipo==null || template.selectedTipo==item.museo_tipologia)) {
+					markers.push(item);
+				}
+			}
 		}) 
 		template.markers = markers;
 	}
 
-	template.selectTipologia = function() {
+	template.selectGratuiti = function() {
+		gratis = !gratis;
 		markers = [];
 		template.items.forEach(function(item) {
-			if ((template.selectedTipo==null || template.selectedTipo==item.museo_tipologia) && (template.selectedProvincia==null || template.selectedProvincia==item.sede_provincia)) {
+			if (gratis) {
+				if ((template.selectedTipo==null || template.selectedTipo==item.museo_tipologia) && 
+					(template.selectedProvincia==null || template.selectedProvincia==item.sede_provincia) &&
+					(item.museo_ingresso=="GRATUITO")) {
 					markers.push(item);
 				} 
+			} else {
+				if ((template.selectedTipo==null || template.selectedTipo==item.museo_tipologia) && 
+					(template.selectedProvincia==null || template.selectedProvincia==item.sede_provincia)) { 
+					markers.push(item);
+				}
+			}
 		}) 
 		template.markers = markers;
 	}
-
-
 
 	template.itemsChanged = function() {
 		template.items.forEach(function(item) {
 			var found = false;
+
 			province.some(function (prv) {
-					if (prv==item.sede_provincia) {
+				if (prv==item.sede_provincia) {
 					found=true;
 				} return found;
 			})
-		if (!found) province.push(item.sede_provincia);
+			if (!found) province.push(item.sede_provincia);
 
-		found = false;
+			found = false;
 
-		tipologia.some(function (tipo) {
-					if (tipo==item.museo_tipologia) {
+			tipologia.some(function (tipo) {
+				if (tipo==item.museo_tipologia) {
 					found=true;
 				} return found;
 			})
-		if (!found) tipologia.push(item.museo_tipologia);
+			if (!found) tipologia.push(item.museo_tipologia);
 
-		markers.push(item);
+			markers.push(item);
 		})
 
-	template.province = province;
-	template.markers = markers;
-	template.tipologia = tipologia;
+		template.province = province;
+		template.markers = markers;
+		template.tipologia = tipologia;
 
 
 

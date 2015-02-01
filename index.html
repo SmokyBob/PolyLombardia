@@ -1,84 +1,89 @@
 <!doctype html>
-
 <html>
-<head>
-  <title>PolyLombardia</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <head>
+    <title>PolyLombardia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="bower_components/core-icons/core-icons.html">
+    <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="bower_components/font-roboto/roboto.html">
+    <link rel="import" href="bower_components/paper-button/paper-button.html">
+    <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+    <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="bower_components/paper-fab/paper-fab.html">
+    <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+    <link rel="import" href="bower_components/paper-toast/paper-toast.html">
+    <link rel="import" href="bower_components/google-map/google-map.html">
+    <link rel="import" href="bower_components/core-scaffold/core-scaffold.html">
+    <link rel="import" href="bower_components/core-menu/core-menu.html">
+    <link rel="import" href="bower_components/core-menu/core-submenu.html">
+    <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="bower_components/core-elements/core-elements.html">
+    <link rel="import" href="bower_components/paper-radio-group/paper-radio-group.html">
+    <link rel="stylesheet" href="styles.css">
+  </head>
 
-  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+  <body unresolved fit>
 
-  <link rel="import" href="bower_components/core-icons/core-icons.html">
-  <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
-  <link rel="import" href="bower_components/font-roboto/roboto.html">
-  <link rel="import" href="bower_components/paper-button/paper-button.html">
-  <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
-  <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
-  <link rel="import" href="bower_components/paper-fab/paper-fab.html">
-  <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
-  <link rel="import" href="bower_components/paper-toast/paper-toast.html"> 
-  <link rel="import" href="bower_components/google-map/google-map.html">
-  <link rel="import" href="bower_components/core-scaffold/core-scaffold.html">
-  <link rel="import" href="bower_components/core-menu/core-menu.html">
-  <link rel="import" href="bower_components/core-menu/core-submenu.html">
+    <template id="mainContent" is="auto-binding">
 
-  <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
-<link rel="import" href="bower_components/core-elements/core-elements.html">
+      <core-scaffold>
+        <core-header-panel navigation flex mode="seamed">
+          <core-toolbar>Polymer Hackaton
+          </core-toolbar>
+
+          <core-menu theme="core-light-theme">
+            <core-item label="Filtra i risultati per: "></core-item>
+          </core-menu>
+          <core-menu theme="core-light-theme" selected="0">
+            <core-submenu selected ="{{selectedProvincia}}" valueattr="id" icon="settings" label="Provincia" on-core-select="{{select}}">
+              <template repeat="{{prv in province}}">
+                <core-item id="{{prv}}"> {{prv}} 
+                </core-item>
+              </template>
+            </core-submenu>
+          </core-menu>
+
+          <core-menu theme="core-light-theme" selected="0">
+            <core-submenu selected ="{{selectedTipo}}" valueattr="id" icon="settings" label="Tipologia" on-core-select="{{select}}">
+              <template repeat="{{tipo in tipologia}}">
+                <core-item id="{{tipo}}"> {{tipo}} 
+                </core-item>
+              </template>
+            </core-submenu>
+          </core-menu>
+
+          <core-item>
+              <paper-checkbox label="Gratuiti" on-change='{{selectGratuiti}}'>
+              </paper-checkbox>
+          </core-item>             
 
 
-
-
-  <link rel="stylesheet" href="styles.css">
-</head>
-
-<body unresolved fit>
-
-  <template id="mainContent" is="auto-binding">
-  <core-scaffold>
-  <core-header-panel navigation flex mode="seamed">
-    <core-toolbar>Polymer Hackaton</core-toolbar>
-    <core-menu theme="core-light-theme" selected="0">
-
-      <core-submenu selected ="{{selectedProvincia}}" valueattr="id" icon="settings" label="Provincia" on-core-select="{{selectProvincia}}">
-        <template repeat="{{prv in province}}">
-          <core-item id="{{prv}}"> {{prv}} </core-item>          
-        </template>
-      </core-submenu>
-    </core-menu>
-    <core-menu theme="core-light-theme" selected="0">
-
-      <core-submenu selected ="{{selectedTipo}}" valueattr="id" icon="settings" label="Tipologia" on-core-select="{{selectTipologia}}">
-        <template repeat="{{tipo in tipologia}}">
-          <core-item id="{{tipo}}"> {{tipo}} </core-item>          
-        </template>
-      </core-submenu>
-
-    </core-submenu>
-    </core-menu>
-  </core-header-panel>
-  <div tool>PolyLombardia</div>
-  <div fit>    
-    <google-map id="myMap" flex fitToMarkers="{{(items.length>1)}}">
-    <template repeat="{{item in markers}}">
-      <google-map-marker latitude="{{item.lng.latitude}}" longitude="{{item.lng.longitude}}"
-      title="{{item.museo_denominazione}}"> {{item.museo_denominazione}}
-    </google-map-marker>
+        </core-header-panel>
+ 
+        <div tool>PolyLombardia - Musei</div>
+        <div fit>
+          <google-map id="myMap" flex fitToMarkers="{{(items.length>1)}}" latitude="45.46542" longitude="9.18592">
+            <template repeat="{{item in markers}}">
+              <google-map-marker latitude="{{item.lng.latitude}}" longitude="{{item.lng.longitude}}" title="{{item.museo_denominazione}}"> {{item.museo_denominazione}}<br>{{item.sede_sito}}
+              </google-map-marker>
+            </template>
+          </google-map>
+        </div>    
+      </core-scaffold>
+    
+      <core-ajax url="{{url_entry}}" handleAs="json" response="{{items}}" auto on-core-complete='{{itemsChanged}}'>
+      </core-ajax>
+    
     </template>
-  </google-map>
-  </div>
-  </core-scaffold>
-
-  <core-ajax
-    url="https://www.dati.lombardia.it/resource/iu2c-9p5j.json"
-    handleAs="json"
-    response="{{items}}"
-    auto on-core-complete='{{itemsChanged}}'>
-</core-ajax>
-
-</template>
+    
+    <script src="main.js"></script>
   
-  <script src="main.js"></script>
-</body>
+  </body>
+
 </html>
+
+<|--https://www.dati.lombardia.it/resource/iu2c-9p5j.json-->
