@@ -61,3 +61,8 @@ core-scaffold/deep/google-map {
   display: block;
   height: 100%;
 }
+
+paper-dropdown-menu {
+  display: block;
+  margin: 12px;
+}

@@ -23,7 +23,16 @@
     <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
     <link rel="import" href="bower_components/core-elements/core-elements.html">
     <link rel="import" href="bower_components/paper-radio-group/paper-radio-group.html">
+    <link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+    <link rel="import" href="bower_components/core-collapse/core-collapse.html">
+    <link rel="import" href="bower_components/core-menu/core-menu.html">
+    <link rel="import" href="bower_components/paper-dropdown/paper-dropdown.html">
+    <link rel="import" href="bower_components/paper-item/paper-item.html">
+
     <link rel="stylesheet" href="styles.css">
+    <script>
+    
+    </script>
   </head>
 
   <body unresolved fit>
@@ -35,14 +44,23 @@
           <core-toolbar>Polymer Hackaton
           </core-toolbar>
 
+        <paper-dropdown-menu label="Cosa vuoi visualizzare?" on-core-select="{{selectOrigin}}">
+          <paper-dropdown class="dropdown">
+            <core-menu class="menu" valueattr="id" >
+              <template repeat="{{src in source_name}}">
+                <paper-item id="{{src}}">{{src}}</paper-item>
+              </template>
+            </core-menu>
+          </paper-dropdown>
+        </paper-dropdown-menu>
+
           <core-menu theme="core-light-theme">
             <core-item label="Filtra i risultati per: "></core-item>
           </core-menu>
           <core-menu theme="core-light-theme" selected="0">
             <core-submenu selected ="{{selectedProvincia}}" valueattr="id" icon="settings" label="Provincia" on-core-select="{{select}}">
               <template repeat="{{prv in province}}">
-                <core-item id="{{prv}}"> {{prv}} 
-                </core-item>
+                <core-item id="{{prv}}">{{prv}}</core-item>
               </template>
             </core-submenu>
           </core-menu>
@@ -75,15 +93,16 @@
         </div>    
       </core-scaffold>
     
-      <core-ajax url="{{url_entry}}" handleAs="json" response="{{items}}" auto on-core-complete='{{itemsChanged}}'>
+      <core-ajax url="{{origin}}" handleAs="json" response="{{items}}" auto on-core-complete='{{itemsChanged}}'>
       </core-ajax>
     
     </template>
     
-    <script src="main.js"></script>
+    <script src="main.js">
+    </script>
   
   </body>
 
 </html>
 
-<|--https://www.dati.lombardia.it/resource/iu2c-9p5j.json-->
+<!--https://www.dati.lombardia.it/resource/iu2c-9p5j.json-->
